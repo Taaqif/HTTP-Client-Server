@@ -1,0 +1,7 @@
+ INFO: http server starting:8000:593
+ INFO: request:GET / HTTP/1.1**Host: localhost:8000**User-Agent: curl/7.47.0**Accept: */*****:1
+SORRY: failed to open file:index.html
+ INFO: request:GET / HTTP/1.1**Host: localhost:8000**User-Agent: curl/7.47.0**Accept: */*****:2
+SORRY: failed to open file:index.html
+ INFO: request:GET / HTTP/1.1**Host: localhost:8000**User-Agent: curl/7.47.0**Accept: */*****:3
+SORRY: failed to open file:index.html

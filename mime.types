@@ -1,0 +1,4 @@
+html,html:text/html
+txt:text/plain
+jpeg,jpg:image/jpeg
+gif:image/gif

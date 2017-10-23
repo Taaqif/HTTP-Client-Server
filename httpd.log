@@ -1,0 +1,215 @@
+[ Sat Oct 21 17:27:34 2017
+ ] Cannot process parent directory requests
+[ Sat Oct 21 17:29:52 2017
+ ] Cannot process parent directory requests
+[ Saturday, October 21 2017 ] Cannot process parent directory requests
+[ Sat Oct 21 17:33:40 2017 ] Cannot process parent directory requests
+[ Sat Oct 21 17:34:36 2017 ] Cannot process parent directory requests
+[ Sat Oct 21 21:58:33 2017 ] Cannot process parent directory requests
+[ Sat Oct 21 21:58:36 2017 ] Cannot process parent directory requests
+[ Sat Oct 21 21:59:12 2017 ] Cannot process parent directory requests
+[ Sat Oct 21 22:00:24 2017 ] Cannot process parent directory requests
+[ Sat Oct 21 22:00:29 2017 ] Cannot process parent directory requests
+[ Sat Oct 21 22:00:32 2017 ] Cannot process parent directory requests
+[ Sat Oct 21 22:00:38 2017 ] Cannot process parent directory requests
+[ Sat Oct 21 22:01:07 2017 ] Cannot process parent directory requests
+[ Sat Oct 21 22:01:10 2017 ] Cannot process parent directory requests
+[ Sat Oct 21 22:01:36 2017 ] Cannot process parent directory requests
+[ Sat Oct 21 22:01:39 2017 ] Cannot process parent directory requests
+[ Sun Oct 22 19:34:09 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 19:40:12 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 19:40:47 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 19:44:24 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 19:46:17 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 19:50:35 2017 ] GET (null) / 200
+[ Sun Oct 22 19:54:32 2017 ] GET (null) / 200
+[ Sun Oct 22 19:55:02 2017 ] GET (null) / 200
+[ Sun Oct 22 19:55:53 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 19:56:21 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 20:02:00 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 20:02:11 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 20:02:13 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:02:27 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:03:45 2017 ] GET localhost:8000 /test/test/ 404
+[ Sun Oct 22 20:05:13 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:05:31 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:05:38 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:06:42 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:06:55 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:07:00 2017 ] GET localhost:8000 /test/h 200
+[ Sun Oct 22 20:07:06 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:07:43 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:07:50 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:07:56 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:09:13 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:09:21 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 20:09:25 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:10:02 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:10:15 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:10:24 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:11:07 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:11:12 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 20:11:24 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:11:38 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:12:06 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:13:44 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:14:03 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:14:07 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 20:14:13 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:20:08 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:20:45 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:20:58 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:23:00 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 20:23:03 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:23:12 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:23:17 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:24:49 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:25:08 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:25:44 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:25:56 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 20:26:01 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 20:26:04 2017 ] GET localhost:8000 /test/h 200
+[ Sun Oct 22 20:26:12 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:27:18 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:35:38 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:39:30 2017 ] GET localhost:8000 /test/ 200
+[ Sun Oct 22 20:39:37 2017 ] GET localhost:8000 /test 200
+[ Sun Oct 22 21:04:43 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:04:43 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:05:19 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:05:19 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:05:23 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:05:23 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:05:29 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:05:29 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:09:00 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:09:00 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:10:37 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:10:37 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:10:42 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:10:42 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:12:12 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:12:12 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:12:14 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:12:14 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:12:54 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:12:54 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:13:01 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:13:01 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:15:30 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:15:30 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:15:40 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:15:40 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:15:50 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:15:50 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:16:58 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:16:58 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:17:06 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:17:06 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:17:07 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:17:07 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:17:34 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:17:34 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:17:40 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:17:40 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:18:08 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:18:08 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:18:40 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:18:40 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:19:37 2017 ] GET localhost:8000 /h.log 200
+[ Sun Oct 22 21:20:04 2017 ] GET localhost:8000 HEAD 404
+[ Sun Oct 22 21:20:09 2017 ] GET localhost:8000 HEAD 404
+[ Sun Oct 22 21:21:01 2017 ] GET localhost:8000 HEAD 404
+[ Sun Oct 22 21:21:02 2017 ] GET localhost:8000 HEAD 404
+[ Sun Oct 22 21:21:05 2017 ] GET localhost:8000 HEAD 404
+[ Sun Oct 22 21:21:42 2017 ] HEAD localhost:8000 / 200
+[ Sun Oct 22 21:22:11 2017 ] HEAD localhost:8000 / 200
+[ Sun Oct 22 21:22:28 2017 ] HEAD localhost:8000 / 200
+[ Sun Oct 22 21:22:45 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:22:45 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:31:38 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:31:38 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:31:43 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 21:31:43 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 22:03:19 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 22:03:19 2017 ] GET localhost:8000 / 200
+[ Sun Oct 22 22:31:38 2017 ] TRACE localhost:8000 /h.log 200
+[ Mon, 23 Oct 2017 01:08:19 STD ] GET i><a href="test">test</a></li>
+  </ul>
+ </body>
+</html>
+ log</a></li>
+   <li><a href="test">test</a></li>
+  </ul>
+ </body>
+</html>
+ 200
+[ Mon, 23 Oct 2017 01:08:19 STD ] GET i><a href="test">test</a></li>
+  </ul>
+ </body>
+</html>
+ log</a></li>
+   <li><a href="test">test</a></li>
+  </ul>
+ </body>
+</html>
+ 200
+[ Mon, 23 Oct 2017 09:32:21 STD ] GET i><a href="test">test</a></li>
+  </ul>
+ </body>
+</html>
+ log</a></li>
+   <li><a href="test">test</a></li>
+  </ul>
+ </body>
+</html>
+ 200
+[ Mon, 23 Oct 2017 09:32:21 STD ] GET i><a href="test">test</a></li>
+  </ul>
+ </body>
+</html>
+ log</a></li>
+   <li><a href="test">test</a></li>
+  </ul>
+ </body>
+</html>
+ 200
+[ Mon, 23 Oct 2017 09:32:37 STD ] GET localhost:8000 /test 200
+[ Mon, 23 Oct 2017 09:32:37 STD ] GET localhost:8000 /test 200
+[ Mon, 23 Oct 2017 09:32:38 STD ] GET i><a href="test">test</a></li>
+  </ul>
+ </body>
+</html>
+ log</a></li>
+   <li><a href="test">test</a></li>
+  </ul>
+ </body>
+</html>
+ 200
+[ Mon, 23 Oct 2017 09:32:38 STD ] GET i><a href="test">test</a></li>
+  </ul>
+ </body>
+</html>
+ log</a></li>
+   <li><a href="test">test</a></li>
+  </ul>
+ </body>
+</html>
+ 200
+[ Mon, 23 Oct 2017 09:32:40 STD ] GET localhost:8000 /d.htm 200
+[ Mon, 23 Oct 2017 09:36:59 STD ] GET localhost:8000 / 200
+[ Mon, 23 Oct 2017 09:36:59 STD ] GET localhost:8000 / 200
+[ Mon, 23 Oct 2017 09:37:03 STD ] GET localhost:8000 /test 200
+[ Mon, 23 Oct 2017 09:37:03 STD ] GET localhost:8000 /test 200
+[ Mon, 23 Oct 2017 09:37:05 STD ] GET localhost:8000 /test/ 200
+[ Mon, 23 Oct 2017 09:37:05 STD ] GET localhost:8000 /test/ 200
+[ Mon, 23 Oct 2017 09:37:08 STD ] GET localhost:8000 / 200
+[ Mon, 23 Oct 2017 09:37:08 STD ] GET localhost:8000 / 200
+[ Mon, 23 Oct 2017 09:37:09 STD ] GET localhost:8000 /d.htm 200
+[ Mon, 23 Oct 2017 09:37:12 STD ] GET localhost:8000 /myhttp 200
+[ Mon, 23 Oct 2017 09:37:15 STD ] GET localhost:8000 /myhttp.c 200
+[ Mon, 23 Oct 2017 09:37:18 STD ] GET localhost:8000 /httpd.log 200
+[ Mon, 23 Oct 2017 09:37:42 STD ] GET localhost:8000 /test 200
+[ Mon, 23 Oct 2017 09:37:42 STD ] GET localhost:8000 /test 200
+[ Mon, 23 Oct 2017 09:37:45 STD ] GET localhost:8000 /test/h 200
+[ Mon, 23 Oct 2017 09:37:50 STD ] GET localhost:8000 /httpd.log 200
