@@ -4,7 +4,9 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <string.h>
-
+#include <sys/poll.h>
+#include <fcntl.h>
+#include <sys/select.h>
 #define BUFF_SIZE 512
 #define DEFAULT_PORT 80
 
@@ -142,7 +144,8 @@ int main(int argc, char *argv[])
         bzero(buffer, BUFF_SIZE);
 
         //display message for -m HEAD
-        if(strcasecmp(method, "head") == 0 && contentOnly){
+        if (strcasecmp(method, "head") == 0 && contentOnly)
+        {
             fprintf(stderr, "NOTE: Head method does not return any content. Use -a to see response\n");
         }
         sprintf(buffer, "%s /%s HTTP/1.1\nHost: %s:%d\n\n", method, page, ip, port);
@@ -161,56 +164,104 @@ int main(int argc, char *argv[])
 
     //this is where you will either print the body or the whole message
     int headFound = 0;
-    // Read response from server
+    
     while (1)
     {
-        // char * lineToken;
+        
         bzero(buffer, BUFF_SIZE);
         //accomodate null character
-        n = read(sockfd, buffer, BUFF_SIZE - 1);
-        // fprintf(stderr, "%s", buffer);
-        char *lineToken = malloc(strlen(buffer) + 1);
-        strcpy(lineToken, buffer);
+        int b;
 
-        while ((lineToken = strtok(lineToken, "\n")) != NULL)
-        {
-            
-            //check if the user only wants the content
-            if(!contentOnly)
-            {
-                fprintf(stdout, "%s\n", lineToken);
-                
-            }else{
-                //check if the header seperateor has been found and print 
-                if(headFound)
-                {
-                    fprintf(stdout, "%s\n", lineToken);
-                }
-            }
-            //check if new line character 
-            if(strlen(lineToken) == 1)
-            {
-                headFound = 1;
-                //skip the next two lines
-                strtok(NULL, "\n");
-            }
-            //just to style the response correctly
-            
-            lineToken = NULL;
-
-        }
-        if(n != BUFF_SIZE-1)
-        {
-            fprintf(stdout, "\n");
-            
-        }
-        //might be an issue when the response is exactly 512 bytes long
         
-        free(lineToken);
-        if(n + 1 != BUFF_SIZE)
-        {
-            break;
-        }
+
+        
+        // wait for events on the sockets, 3.5 second timeout
+
+        // if (rv == -1) {
+        //     perror("poll"); // error occurred in poll()
+        // } else if (rv == 0) {
+        //     printf("Timeout occurred!  No data after 3.5 seconds.\n");
+        //     break;
+        // } else {
+        //     // check for events on s1:
+        //     if (ufds[0].revents & POLLIN) {
+        //         char *lineToken = malloc(strlen(buffer) + 1);
+        //         strcpy(lineToken, buffer);
+
+        //         while ((lineToken = strtok(lineToken, "\n")) != NULL)
+        //         {
+        //             //check if new line character from the response is found
+        //             if(strlen(lineToken) == 1 && !headFound)
+        //             {
+        //                 headFound = 1;
+        //                 //skip the next lines
+        //                 strtok(NULL, "\n");
+        //             }
+        //             // printf("%d\n", strlen(lineToken));
+        //             //check if the user only wants the content
+        //             if(!contentOnly)
+        //             {
+        //                 fprintf(stdout, "%s\n", lineToken);
+
+        //             }else{
+        //                 //check if the header seperateor has been found and print
+        //                 if(headFound)
+        //                 {
+        //                     fprintf(stdout, "%s\n", lineToken);
+        //                 }
+        //             }
+
+        //             //just to style the response correctly
+
+        //             lineToken = NULL;
+
+        //         }
+
+        //         //might be an issue when the response is exactly 512 bytes long
+        //         free(lineToken);
+
+        //         // recv(s1, buf1, sizeof buf1, 0); // receive normal data
+        //     }
+        // }
+        // fprintf(stderr, "%s", buffer);
+        // char *lineToken = malloc(strlen(buffer) + 1);
+        // strcpy(lineToken, buffer);
+
+        // while ((lineToken = strtok(lineToken, "\n")) != NULL)
+        // {
+        //     //check if new line character from the response is found
+        //     if(strlen(lineToken) == 1 && !headFound)
+        //     {
+        //         headFound = 1;
+        //         //skip the next lines
+        //         strtok(NULL, "\n");
+        //     }
+        //     // printf("%d\n", strlen(lineToken));
+        //     //check if the user only wants the content
+        //     if(!contentOnly)
+        //     {
+        //         fprintf(stdout, "%s\n", lineToken);
+
+        //     }else{
+        //         //check if the header seperateor has been found and print
+        //         if(headFound)
+        //         {
+        //             fprintf(stdout, "%s\n", lineToken);
+        //         }
+        //     }
+
+        //     //just to style the response correctly
+
+        //     lineToken = NULL;
+
+        // }
+
+        // //might be an issue when the response is exactly 512 bytes long
+        // free(lineToken);
+        // if(n + 1 != BUFF_SIZE && buffer[n] == '\0')
+        // {
+        //     break;
+        // }
         if (n <= 0 || n == -1)
             break;
     }

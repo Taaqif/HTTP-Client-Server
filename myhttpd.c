@@ -20,6 +20,7 @@
 #define DEFAULT_PORT 8000
 #define DEFAULT_ROOT_DIR "."
 #define DEFAULT_LOG_FILE "httpd.log"
+#define DEFAULT_PREFORKS 5
 
 void processrequest(int sock);
 void processDirectory(int sock, char *path, char *host, int headOnly);
@@ -28,11 +29,7 @@ void setMimeTypes(char *path);
 void request(int sock, char *resource, char *host, int headOnly);
 void trace(int sock, char *resource, char *host, char *echo);
 
-void serve400(int sock, int headOnly);
-void serve404(int sock, int headOnly);
-void serve405(int sock);
-void serve500(int sock, int headOnly);
-void serve415(int sock, int headOnly);
+void serveErr(int sock, int headOnly, int statusCode, char *statusType, char *message);
 
 void writelog(char *method, char *host, char *resource, int status);
 
@@ -42,7 +39,7 @@ void claim_zombie();
 int daemon_init(void);
 
 FILE *logfile;
-
+char *rootdir = DEFAULT_ROOT_DIR;
 typedef struct
 {
     char extension[MAX_LINESIZE];
@@ -66,10 +63,12 @@ MIME mimes[MAX_FILETYPES] = {
 int main(int argc, char *argv[])
 {
     int portno = DEFAULT_PORT;
+    int preforks = DEFAULT_PREFORKS;
     char *logfilename = DEFAULT_LOG_FILE;
-    char *rootdir = DEFAULT_ROOT_DIR;
-    int opt;
     char *mimtypeFilePath = NULL;
+    
+    int opt;
+    
     while ((opt = getopt(argc, argv, "p:d:l:m:f:")) != -1)
     {
         switch (opt)
@@ -93,7 +92,7 @@ int main(int argc, char *argv[])
             fprintf(stdout, "Using %s as the supported mime type file\r\n", optarg);
             break;
         case 'f':
-            printf("%sf", optarg);
+            preforks = atoi(optarg);
             break;
         default:
             fprintf(stderr, "Usage: \r\n%s \t[ -p <port number> ]\r\n\
@@ -118,6 +117,7 @@ int main(int argc, char *argv[])
     }
 
     daemon_init();
+
     int sockfd, newsockfd, clilen;
 
     // Struct that holds a socket address, server address and client address
@@ -131,17 +131,6 @@ int main(int argc, char *argv[])
     sigemptyset(&act.sa_mask);
     act.sa_flags = SA_NOCLDSTOP;
     sigaction(SIGCHLD, (struct sigaction *)&act, (struct sigaction *)0);
-    // struct sigaction act1, zact;
-    // act1.sa_flags = 0;
-    // // Handler for control C
-    // act1.sa_handler = catch;
-
-    // checking if signal control C is pressed and then exiting
-    if ((sigaction(SIGINT, &act, NULL) != 0)) //
-    {
-        perror("ERROR in Sigaction");
-        exit(0);
-    }
 
     //Call to socket function using address family and socket connection
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -159,7 +148,7 @@ int main(int argc, char *argv[])
     //Server address is structured using address family
     serv_addr.sin_family = AF_INET;
     // Server addreessed set accdirListingting all IP address
-    serv_addr.sin_addr.s_addr = INADDR_ANY;
+    serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     // Set port number to host to network short
     serv_addr.sin_port = htons(portno);
 
@@ -180,46 +169,110 @@ int main(int argc, char *argv[])
     if (listen(sockfd, MAX_CLIENTS) < 0)
         perror("ERROR on listen");
 
-    // Infinite loop so clients can continue to connect
-    while (1)
+    // Ignore SIGPIPE signal, interupted requests wont fail
+    signal(SIGPIPE, SIG_IGN);
+    //preforks
+    for (int i = 0; i < preforks; i++)
     {
-        // Store client address length into clilen
-        clilen = sizeof(cli_addr);
-        //accepts the connection of the next available client based on the client address
-        if ((newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, &clilen) < 0))
-        {
-            if (errno == EINTR) /* if interrupted by SIGCHLD */
-                continue;
-            perror("Error on accept");
-            exit(1);
-        }
-
-        // Create a child process
-        pid = fork();
-
-        // If error on fork then print to log file
-        if (pid < 0)
-        {
-            perror("ERROR on fork");
-            exit(1);
-        }
-
+        int pid = fork();
         if (pid == 0)
-        {
-            //Creating client process
-            close(sockfd);
+        { //  child
+            while (1)
+            {
+                //accepts the connection of the next available client based on the client address
 
-            // Function call to do process sending sock fd
-            processrequest(newsockfd);
-            exit(0);
+                newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, &len);
+                processrequest(newsockfd);
+                close(newsockfd);
+            }
+        }
+        else if (pid > 0)
+        { //  parent
         }
         else
         {
-            close(newsockfd); //close the socket
+            perror("fork");
         }
+    }
 
-    } /* end of while */
+    while (1)
+    {
+        //accepts the connection of the next available client based on the client address
+        newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, &len);
+        processrequest(newsockfd);
+        close(newsockfd);
+    }
+
+    // while (1) {
+    //     newsock = accept(...);
+    //     if (newsock < 0) { /* handle error... */ }
+    //     else {
+    //         send(newsock, ...);
+    //         close(newsock);
+    //     }
+    // }
+
+    // Infinite loop so clients can continue to connect
+    // while (1)
+    // {
+    //     // Store client address length into clilen
+    //     clilen = sizeof(cli_addr);
+    //     //accepts the connection of the next available client based on the client address
+    //     if ((newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, &clilen) < 0))
+    //     {
+    //         if (errno == EINTR) /* if interrupted by SIGCHLD */
+    //             continue;
+    //         perror("Error on accept");
+    //         exit(1);
+    //     }
+    //     // close(sockfd);
+    //     processrequest(newsockfd);
+    //     close(newsockfd); //close the socket
+    //     // Create a child process
+    //     // pid = fork();
+
+    //     // // If error on fork then print to log file
+    //     // if (pid < 0)
+    //     // {
+    //     //     perror("ERROR on fork");
+    //     //     exit(1);
+    //     // }
+
+    //     // if (pid == 0)
+    //     // {
+    //     //     //Creating client process
+    //     //     close(sockfd);
+    //     //     processrequest(newsockfd);
+    //     //     close(newsockfd); //close the socket
+
+    //     //     // Function call to do process sending sock fd
+
+    //     //     // close(newsockfd);
+    //     //     exit(0);
+    //     // }
+    //     // else
+    //     // {
+    //     //     // close(newsockfd); //close the socket
+    //     // }
+
+    // } /* end of while */
 }
+char *replace_str(char *str, char *orig, char *rep)
+{
+  static char buffer[4096];
+  char *p;
+
+  if(!(p = strstr(str, orig)))  // Is 'orig' even in 'str'?
+    return str;
+
+  strncpy(buffer, str, p-str); // Copy characters from 'str' start to 'orig' st$
+  buffer[p-str] = '\0';
+
+  sprintf(buffer+(p-str), "%s%s", rep, p+strlen(orig));
+
+  return buffer;
+}
+
 void setMimeTypes(char *path)
 {
     char buffer[BUFF_SIZE];
@@ -279,7 +332,7 @@ void processrequest(int sock)
     if ((read(sock, buffer, BUFF_SIZE)) < 0)
     {
         perror("ERROR reading from socket");
-        exit(1);
+        return;
     }
     //duplicate the request, this is to be used later in the trace method
     char *requestDuplicate = malloc(strlen(buffer) + 1);
@@ -308,7 +361,8 @@ void processrequest(int sock)
     //make sure the host is actually available, otherwise
     if (strcasecmp(hostToken, "HOST:") != 0)
     {
-        serve400(sock, 0);
+        serveErr(sock, 0, 400, "Bad Request", "The server could not process the request");
+
         writelog(statusToken, "NULL", "", 400);
         return;
     }
@@ -340,7 +394,8 @@ void processrequest(int sock)
     else
     {
         //method not supported
-        serve405(sock);
+        serveErr(sock, 0, 405, "Method Not Allowed", "The server could not process the requested method");
+
         writelog(statusToken, hostToken, strtok_r(NULL, " ", &statusTokenSave), 405);
     }
 }
@@ -369,7 +424,10 @@ void request(int sock, char *resource, char *host, int headOnly)
     char *rpath = (char *)malloc(1 + strlen(".") + strlen(resource));
     strcpy(rpath, ".");
     strcat(rpath, resource);
+    //replace all %20 with spavces here 
+    // strcpy(rpath, replace_str(rpath, "%20", " ");
 
+    // fprintf(stderr, "%s", rpath);
     if (stat(rpath, &s) == 0)
     {
         //directory
@@ -385,125 +443,42 @@ void request(int sock, char *resource, char *host, int headOnly)
         }
         else
         {
-            fprintf(stderr, "Server could not process file");
-            serve400(sock, headOnly);
+            //cant process
+            serveErr(sock, headOnly, 400, "Bad Request", "The server could not process the request");
             writelog(method, host, resource, 400);
         }
     }
     else
     {
         //anything else
-        fprintf(stdout, "Error locating resource");
-        serve404(sock, headOnly);
+        //fprintf(stdout, "Error locating resource");
+        serveErr(sock, headOnly, 404, "Not Found", "The server could not locate the requested resource");
+
         writelog(method, host, resource, 404);
     }
     free(rpath);
 }
-void serve400(int sock, int headOnly)
-{
-    char buffer[BUFF_SIZE];
-    sprintf(buffer, "HTTP/1.1 400 Bad Request\r\n"
-                    "Content-Type: %s\r\n\r\n",
-            "text/html");
-    write(sock, buffer, strlen(buffer));
-    if (!headOnly)
-    {
-        sprintf(buffer, "<!DOCTYPE HTML>\r\n"
-                        "<html>\r\n"
-                        " <head>\r\n"
-                        "  <title>400 Bad Request</title>\r\n"
-                        " </head>\r\n"
-                        " <body>\r\n"
-                        "  <h1>Bad Request</h1>\r\n"
-                        "  <p>The server could not process the request<p>\r\n"
-                        " </body>\r\n"
-                        "</html>\r\n");
-        write(sock, buffer, strlen(buffer));
-    }
-}
-void serve500(int sock, int headOnly)
-{
-    char buffer[BUFF_SIZE];
-    sprintf(buffer, "HTTP/1.1 500 Internal Server Error\r\n"
-                    "Content-Type: %s\r\n\r\n",
-            "text/html");
-    write(sock, buffer, strlen(buffer));
-    if (!headOnly)
-    {
-        sprintf(buffer, "<!DOCTYPE HTML>\r\n"
-                        "<html>\r\n"
-                        " <head>\r\n"
-                        "  <title>500 Unsupported Media Type</title>\r\n"
-                        " </head>\r\n"
-                        " <body>\r\n"
-                        "  <h1>Internal Server Error</h1>\r\n"
-                        "  <p>The server encountered an internal error<p>\r\n"
-                        " </body>\r\n"
-                        "</html>");
-        write(sock, buffer, strlen(buffer));
-    }
-}
-void serve415(int sock, int headOnly)
-{
-    char buffer[BUFF_SIZE];
-    sprintf(buffer, "HTTP/1.1 415 Unsupported Media Type\r\n"
-                    "Content-Type: %s\r\n\r\n",
-            "text/html");
-    write(sock, buffer, strlen(buffer));
-    if (!headOnly)
-    {
-        sprintf(buffer, "<!DOCTYPE HTML>\r\n"
-                        "<html>\r\n"
-                        " <head>\r\n"
-                        "  <title>415 Unsupported Media Type</title>\r\n"
-                        " </head>\r\n"
-                        " <body>\r\n"
-                        "  <h1>Unsupported Media Type</h1>\r\n"
-                        "  <p>The requested resource is unsupported<p>\r\n"
-                        " </body>\r\n"
-                        "</html>");
-        write(sock, buffer, strlen(buffer));
-    }
-}
-void serve405(int sock)
-{
-    char buffer[BUFF_SIZE];
-    sprintf(buffer, "HTTP/1.1 405 Method Not Allowed\r\n"
-                    "Content-Type: %s\r\n\r\n",
-            "text/html");
-    write(sock, buffer, strlen(buffer));
 
-    sprintf(buffer, "<!DOCTYPE HTML>\r\n"
-                    "<html>\r\n"
-                    " <head>\r\n"
-                    "  <title>405 Method Not Allowed</title>\r\n"
-                    " </head>\r\n"
-                    " <body>\r\n"
-                    "  <h1>Method Not Allowed</h1>\r\n"
-                    "  <p>The server could not process the requested method<p>\r\n"
-                    " </body>\r\n"
-                    "</html>");
-    write(sock, buffer, strlen(buffer));
-}
-void serve404(int sock, int headOnly)
+void serveErr(int sock, int headOnly, int statusCode, char *statusType, char *message)
 {
     char buffer[BUFF_SIZE];
-    sprintf(buffer, "HTTP/1.1 404 Not Found\r\n"
+    sprintf(buffer, "HTTP/1.1 %d %s\r\n"
                     "Content-Type: %s\r\n\r\n",
-            "text/html");
+            statusCode, statusType, "text/html");
     write(sock, buffer, strlen(buffer));
     if (!headOnly)
     {
         sprintf(buffer, "<!DOCTYPE HTML>\r\n"
                         "<html>\r\n"
                         " <head>\r\n"
-                        "  <title>400 Bad Request</title>\r\n"
+                        "  <title>%d %s</title>\r\n"
                         " </head>\r\n"
                         " <body>\r\n"
                         "  <h1>Bad Request</h1>\r\n"
-                        "  <p>The server could not process the request<p>\r\n"
+                        "  <p>%s<p>\r\n"
                         " </body>\r\n"
-                        "</html>\r\n");
+                        "</html>\r\n",
+                statusCode, statusType, message);
         write(sock, buffer, strlen(buffer));
     }
 }
@@ -524,7 +499,7 @@ void processFile(int sock, char *resource, char *host, int headOnly)
     if (!ext)
     {
         /* no extension */
-        serve400(sock, headOnly);
+        serveErr(sock, headOnly, 400, "Bad Request", "The server could not process the request");
         writelog(method, host, resource, 400);
         return;
     }
@@ -544,7 +519,8 @@ void processFile(int sock, char *resource, char *host, int headOnly)
     {
         if ((file_fd = open(rpath, O_RDONLY)) == -1)
         {
-            serve500(sock, headOnly);
+            serveErr(sock, headOnly, 500, "Internal Server Error", "The server encountered an internal error");
+
             writelog(method, host, resource, 500);
         }
         // switch()
@@ -559,7 +535,8 @@ void processFile(int sock, char *resource, char *host, int headOnly)
     }
     else
     {
-        serve415(sock, headOnly);
+        serveErr(sock, headOnly, 415, "Unsupported Media Type", "The requested resource is unsupported");
+
         writelog(method, host, resource, 415);
     }
 
@@ -576,119 +553,124 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
     char *rpath = (char *)malloc(1 + strlen(".") + strlen(resource));
     strcpy(rpath, ".");
     strcat(rpath, resource);
+    //calculate the base path
+    char *basePath = (char *)malloc(1 + strlen("//") + strlen(resource));
+    strcpy(basePath, resource);
 
+    if (resource[strlen(resource) - 1] != '/')
+    {
+        strcat(basePath, "/");
+    }
     //check for parent directory requests.
     if (strstr(rpath, "..") != NULL)
     {
-        fprintf(stdout, "Cannot process parent directory requests\r\n");
+        //fprintf(stderr, "Cannot process parent directory requests\r\n");
+        serveErr(sock, headOnly, 400, "Bad Request", "The server could not process the request");
 
-        serve400(sock, headOnly);
         writelog(method, host, resource, 400);
     }
     else
     {
-        if (chdir(rpath) == -1)
+        file_fd = -1;
+
+        //try to open index.html -> index.htm -> default.htm else show the directory lisiting
+        char * tmp = (char *)malloc(1 + 20 + strlen(basePath));
+        strcpy(tmp, ".");
+        strcat(tmp, basePath);
+        strcat(tmp, "index.html");
+        
+        if ((file_fd = open(tmp, O_RDONLY)) == -1)
         {
-            fprintf(stderr, "ERROR: Can't change to directory %s\r\n", rpath);
+            memset(tmp, 0, strlen(tmp));            
+            strcpy(tmp, ".");
+            strcat(tmp, basePath);
+            strcat(tmp, "index.htm");
+            
+            //Cant find index.html
+            if ((file_fd = open(tmp, O_RDONLY)) == -1)
+            {
+                memset(tmp, 0, strlen(tmp));       
+                strcpy(tmp, ".");
+                strcat(tmp, basePath);
+                strcat(tmp, "default.htm");
+                //Cant find index.htm
+                if ((file_fd = open(tmp, O_RDONLY)) == -1)
+                {
+                    //Cant find default.htm
+                }
+            }
+        }
+        free(tmp);
+
+        //could not open any of the files above. Serve the dir listing
+        //https://stackoverflow.com/questions/12489/how-do-you-get-a-directory-listing-in-c
+        if (file_fd == -1)
+        {
+
+            sprintf(buffer, "HTTP/1.1 200 OK\r\nContent-Type: %s\r\n\r\n", "text/html");
+            write(sock, buffer, strlen(buffer));
+            if (!headOnly)
+            {
+
+                sprintf(buffer, "<!DOCTYPE html>\r\n"
+                                "<html>\r\n"
+                                " <head>\r\n"
+                                "  <meta charset='utf-8'>\r\n"
+                                "  <title>Directory Listing</title>\r\n"
+                                "  <base href='%s'>\r\n"
+                                " </head>\r\n"
+                                " <body>\r\n"
+                                "  <h1>Directory listing for %s</h1>\r\n"
+                                "  <ul>\r\n",
+                        basePath, rpath);
+
+                write(sock, buffer, strlen(buffer));
+                DIR *dir;
+                struct dirent *dirListing;
+                //we're already in the current directory
+                dir = opendir(rpath);
+
+                if (dir != NULL)
+                {
+                    while (dirListing = readdir(dir))
+                    {
+                        sprintf(buffer, "   <li><a href=\"%s\">%s</a></li>\r\n", dirListing->d_name, dirListing->d_name);
+                        write(sock, buffer, strlen(buffer));
+                    }
+
+                    sprintf(buffer, "  </ul>\r\n"
+                                    " </body>\r\n"
+                                    "</html>\r\n");
+                    write(sock, buffer, strlen(buffer));
+                    writelog(method, host, resource, 200);
+                    closedir(dir);
+                }
+                else
+                {
+                    perror("Couldn't open the directory");
+                }
+                free(basePath);
+            }
+            writelog(method, host, resource, 200);
         }
         else
         {
-            //try to open index.html -> index.htm -> default.htm else show the directory lisiting
-
-            if ((file_fd = open("index.html", O_RDONLY)) == -1)
+            //we know the above files will be html
+            sprintf(buffer, "HTTP/1.1 200 OK\r\nContent-Type: %s\r\n\r\n", "text/html");
+            write(sock, buffer, strlen(buffer));
+            if (!headOnly)
             {
-                //Cant find index.html
-                if ((file_fd = open("index.htm", O_RDONLY)) == -1)
+                while ((n = read(file_fd, buffer, BUFF_SIZE)) > 0)
                 {
-                    //Cant find index.htm
-                    if ((file_fd = open("default.htm", O_RDONLY)) == -1)
-                    {
-                        //Cant find default.htm
-                    }
-                }
-            }
-
-            //could not open any of the files above. Serve the dir listing
-            //https://stackoverflow.com/questions/12489/how-do-you-get-a-directory-listing-in-c
-            if (file_fd == -1)
-            {
-
-                sprintf(buffer, "HTTP/1.1 200 OK\r\nContent-Type: %s\r\n\r\n", "text/html");
-                write(sock, buffer, strlen(buffer));
-                if (!headOnly)
-                {
-                    //calculate the base path
-                    char *basePath = (char *)malloc(1 + strlen("./") + strlen(resource));
-
-                    if (rpath[strlen(rpath) - 1] != '/')
-                    {
-                        strcpy(basePath, rpath);
-                        strcat(basePath, "/");
-                    }
-                    else
-                    {
-                        strcpy(basePath, rpath);
-                        //remove the end slash
-                        basePath[strlen(basePath) - 1] = 0;
-                    }
-
-                    sprintf(buffer, "<!DOCTYPE html>\r\n"
-                                    "<html>\r\n"
-                                    " <head>\r\n"
-                                    "  <meta charset='utf-8'>\r\n"
-                                    "  <title>Directory Listing</title>\r\n"
-                                    "  <base href='%s'>\r\n"
-                                    " </head>\r\n"
-                                    " <body>\r\n"
-                                    "  <h1>Directory listing for %s</h1>\r\n"
-                                    "  <ul>\r\n",
-                            basePath, rpath);
-
-                    write(sock, buffer, strlen(buffer));
-                    DIR *dir;
-                    struct dirent *dirListing;
-                    //we're already in the current directory
-                    dir = opendir("./");
-
-                    if (dir != NULL)
-                    {
-                        while (dirListing = readdir(dir))
-                        {
-                            sprintf(buffer, "   <li><a href=\"%s\">%s</a></li>\r\n", dirListing->d_name, dirListing->d_name);
-                            write(sock, buffer, strlen(buffer));
-                        }
-
-                        sprintf(buffer, "  </ul>\r\n"
-                                        " </body>\r\n"
-                                        "</html>\r\n");
-                        write(sock, buffer, strlen(buffer));
-                        writelog(method, host, resource, 200);
-                        closedir(dir);
-                    }
-                    else
-                    {
-                        perror("Couldn't open the directory");
-                    }
-                    free(basePath);
+                    write(sock, buffer, n);
                 }
                 writelog(method, host, resource, 200);
             }
-            else
-            {
-                //we know the above files will be html
-                sprintf(buffer, "HTTP/1.1 200 OK\r\nContent-Type: %s\r\n\r\n", "text/html");
-                write(sock, buffer, strlen(buffer));
-                if (!headOnly)
-                {
-                    while ((n = read(file_fd, buffer, BUFF_SIZE)) > 0)
-                    {
-                        write(sock, buffer, n);
-                    }
-                    writelog(method, host, resource, 200);
-                }
-            }
+            
         }
+        // }
     }
+
     free(rpath);
 }
 void trace(int sock, char *resource, char *host, char *echo)
@@ -711,8 +693,8 @@ void trace(int sock, char *resource, char *host, char *echo)
  */
 void claim_zombie()
 {
-    // set process ID to 1
     pid_t pid = 1;
+    // set process ID to 1 pid_t pid = 1;
     // check process ID is greater then 0
     while (pid > 0)
     {
