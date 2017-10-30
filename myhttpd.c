@@ -411,6 +411,33 @@ void writeHeader(int sock, int status, char *statusMessage, char *contentType)
     sprintf(buffer, "HTTP/1.1 %d %s\r\nDate: %s\r\nContent-Type: %s\r\n\r\n", status, statusMessage, s, contentType);
     write(sock, buffer, strlen(buffer));
 }
+//https://www.rosettacode.org/wiki/URL_decoding#C
+
+int ishex(int x)
+{
+    return	(x >= '0' && x <= '9')	||
+        (x >= 'a' && x <= 'f')	||
+        (x >= 'A' && x <= 'F');
+}
+int decode(const char *s, char *dec)
+{
+   char *o;
+   const char *end = s + strlen(s);
+   int c;
+
+   for (o = dec; s <= end; o++) {
+       c = *s++;
+       if (c == '+') c = ' ';
+       else if (c == '%' && (	!ishex(*s++)	||
+                   !ishex(*s++)	||
+                   !sscanf(s - 2, "%2x", &c)))
+           return -1;
+
+       if (dec) *o = c;
+   }
+
+   return o - dec;
+}
 void request(int sock, char *resource, char *host, int headOnly)
 {
 
@@ -422,8 +449,10 @@ void request(int sock, char *resource, char *host, int headOnly)
     char *method = (headOnly) ? "HEAD" : "GET";
     //get relative path of resource
     char *rpath = (char *)malloc(1 + strlen(".") + strlen(resource));
+    char decoded[strlen(resource) + 1];
+    decode(resource, decoded);
     strcpy(rpath, ".");
-    strcat(rpath, resource);
+    strcat(rpath, decoded);
     //replace all %20 with spavces here 
     // strcpy(rpath, replace_str(rpath, "%20", " ");
 
@@ -482,6 +511,8 @@ void serveErr(int sock, int headOnly, int statusCode, char *statusType, char *me
         write(sock, buffer, strlen(buffer));
     }
 }
+ 
+
 void processFile(int sock, char *resource, char *host, int headOnly)
 {
     long n;
@@ -489,8 +520,10 @@ void processFile(int sock, char *resource, char *host, int headOnly)
     char *method = (headOnly) ? "HEAD" : "GET";
     int file_fd;
     char *rpath = (char *)malloc(1 + strlen(".") + strlen(resource));
+    char decoded[strlen(resource) + 1];
+    decode(resource, decoded);
     strcpy(rpath, ".");
-    strcat(rpath, resource);
+    strcat(rpath, decoded);
     // fprintf(stdout, "it's a file");
 
     //get the extension using the strchr call.
@@ -551,8 +584,10 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
     char *method = (headOnly) ? "HEAD" : "GET";
     //get relative path of resource
     char *rpath = (char *)malloc(1 + strlen(".") + strlen(resource));
+    char decoded[strlen(resource) + 1];
+    decode(resource, decoded);
     strcpy(rpath, ".");
-    strcat(rpath, resource);
+    strcat(rpath, decoded);
     //calculate the base path
     char *basePath = (char *)malloc(1 + strlen("//") + strlen(resource));
     strcpy(basePath, resource);
