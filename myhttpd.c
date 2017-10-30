@@ -66,9 +66,9 @@ int main(int argc, char *argv[])
     int preforks = DEFAULT_PREFORKS;
     char *logfilename = DEFAULT_LOG_FILE;
     char *mimtypeFilePath = NULL;
-    
+
     int opt;
-    
+
     while ((opt = getopt(argc, argv, "p:d:l:m:f:")) != -1)
     {
         switch (opt)
@@ -187,7 +187,7 @@ int main(int argc, char *argv[])
             }
         }
         else if (pid > 0)
-        { //  parent
+        { //  parent doesnt do anything
         }
         else
         {
@@ -202,76 +202,8 @@ int main(int argc, char *argv[])
         processrequest(newsockfd);
         close(newsockfd);
     }
-
-    // while (1) {
-    //     newsock = accept(...);
-    //     if (newsock < 0) { /* handle error... */ }
-    //     else {
-    //         send(newsock, ...);
-    //         close(newsock);
-    //     }
-    // }
-
-    // Infinite loop so clients can continue to connect
-    // while (1)
-    // {
-    //     // Store client address length into clilen
-    //     clilen = sizeof(cli_addr);
-    //     //accepts the connection of the next available client based on the client address
-    //     if ((newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, &clilen) < 0))
-    //     {
-    //         if (errno == EINTR) /* if interrupted by SIGCHLD */
-    //             continue;
-    //         perror("Error on accept");
-    //         exit(1);
-    //     }
-    //     // close(sockfd);
-    //     processrequest(newsockfd);
-    //     close(newsockfd); //close the socket
-    //     // Create a child process
-    //     // pid = fork();
-
-    //     // // If error on fork then print to log file
-    //     // if (pid < 0)
-    //     // {
-    //     //     perror("ERROR on fork");
-    //     //     exit(1);
-    //     // }
-
-    //     // if (pid == 0)
-    //     // {
-    //     //     //Creating client process
-    //     //     close(sockfd);
-    //     //     processrequest(newsockfd);
-    //     //     close(newsockfd); //close the socket
-
-    //     //     // Function call to do process sending sock fd
-
-    //     //     // close(newsockfd);
-    //     //     exit(0);
-    //     // }
-    //     // else
-    //     // {
-    //     //     // close(newsockfd); //close the socket
-    //     // }
-
-    // } /* end of while */
 }
-char *replace_str(char *str, char *orig, char *rep)
-{
-  static char buffer[4096];
-  char *p;
 
-  if(!(p = strstr(str, orig)))  // Is 'orig' even in 'str'?
-    return str;
-
-  strncpy(buffer, str, p-str); // Copy characters from 'str' start to 'orig' st$
-  buffer[p-str] = '\0';
-
-  sprintf(buffer+(p-str), "%s%s", rep, p+strlen(orig));
-
-  return buffer;
-}
 
 void setMimeTypes(char *path)
 {
@@ -358,46 +290,51 @@ void processrequest(int sock)
     char *hostTokenSave;
 
     hostToken = strtok_r(requestToken, " ", &hostTokenSave);
-    //make sure the host is actually available, otherwise
+    //make sure the host is actually available, otherwise return nothing
+    //issue when the host is not infact the second line
     if (strcasecmp(hostToken, "HOST:") != 0)
     {
         serveErr(sock, 0, 400, "Bad Request", "The server could not process the request");
 
         writelog(statusToken, "NULL", "", 400);
-        return;
-    }
-    //move forward, this contains the actual host name now
-    hostToken = strtok_r(NULL, " ", &hostTokenSave);
-    //remove the newline character
-    hostToken[strcspn(hostToken, "\r\n")] = 0;
-
-    if (strcasecmp(statusToken, "GET") == 0)
-    {
-        //get resource token
-        statusToken = strtok_r(NULL, " ", &statusTokenSave);
-        request(sock, statusToken, hostToken, 0);
-    }
-    else if (strcasecmp(statusToken, "TRACE") == 0)
-    {
-        //get resource token
-        statusToken = strtok_r(NULL, " ", &statusTokenSave);
-        //send request token to trace method
-        trace(sock, statusToken, hostToken, requestDuplicate);
-        // trace(sock, statusToken, hostToken, 0);
-    }
-    else if (strcasecmp(statusToken, "HEAD") == 0)
-    {
-        //get resource token
-        statusToken = strtok_r(NULL, " ", &statusTokenSave);
-        request(sock, statusToken, hostToken, 1);
     }
     else
     {
-        //method not supported
-        serveErr(sock, 0, 405, "Method Not Allowed", "The server could not process the requested method");
+        //move forward, this contains the actual host name now
+        hostToken = strtok_r(NULL, " ", &hostTokenSave);
+        //remove the newline character
+        hostToken[strcspn(hostToken, "\r\n")] = 0;
 
-        writelog(statusToken, hostToken, strtok_r(NULL, " ", &statusTokenSave), 405);
+        if (strcasecmp(statusToken, "GET") == 0)
+        {
+            //get resource token
+            statusToken = strtok_r(NULL, " ", &statusTokenSave);
+            request(sock, statusToken, hostToken, 0);
+        }
+        else if (strcasecmp(statusToken, "TRACE") == 0)
+        {
+            //get resource token
+            statusToken = strtok_r(NULL, " ", &statusTokenSave);
+            //send request token to trace method
+            trace(sock, statusToken, hostToken, requestDuplicate);
+            // trace(sock, statusToken, hostToken, 0);
+        }
+        else if (strcasecmp(statusToken, "HEAD") == 0)
+        {
+            //get resource token
+            statusToken = strtok_r(NULL, " ", &statusTokenSave);
+            request(sock, statusToken, hostToken, 1);
+        }
+        else
+        {
+            //method not supported
+            serveErr(sock, 0, 405, "Method Not Allowed", "The server could not process the requested method");
+
+            writelog(statusToken, hostToken, strtok_r(NULL, " ", &statusTokenSave), 405);
+        }
     }
+
+    free(requestDuplicate);
 }
 void writeHeader(int sock, int status, char *statusMessage, char *contentType)
 {
@@ -412,31 +349,33 @@ void writeHeader(int sock, int status, char *statusMessage, char *contentType)
     write(sock, buffer, strlen(buffer));
 }
 //https://www.rosettacode.org/wiki/URL_decoding#C
-
 int ishex(int x)
 {
-    return	(x >= '0' && x <= '9')	||
-        (x >= 'a' && x <= 'f')	||
-        (x >= 'A' && x <= 'F');
+    return (x >= '0' && x <= '9') ||
+           (x >= 'a' && x <= 'f') ||
+           (x >= 'A' && x <= 'F');
 }
 int decode(const char *s, char *dec)
 {
-   char *o;
-   const char *end = s + strlen(s);
-   int c;
+    char *o;
+    const char *end = s + strlen(s);
+    int c;
 
-   for (o = dec; s <= end; o++) {
-       c = *s++;
-       if (c == '+') c = ' ';
-       else if (c == '%' && (	!ishex(*s++)	||
-                   !ishex(*s++)	||
-                   !sscanf(s - 2, "%2x", &c)))
-           return -1;
+    for (o = dec; s <= end; o++)
+    {
+        c = *s++;
+        if (c == '+')
+            c = ' ';
+        else if (c == '%' && (!ishex(*s++) ||
+                              !ishex(*s++) ||
+                              !sscanf(s - 2, "%2x", &c)))
+            return -1;
 
-       if (dec) *o = c;
-   }
+        if (dec)
+            *o = c;
+    }
 
-   return o - dec;
+    return o - dec;
 }
 void request(int sock, char *resource, char *host, int headOnly)
 {
@@ -453,7 +392,7 @@ void request(int sock, char *resource, char *host, int headOnly)
     decode(resource, decoded);
     strcpy(rpath, ".");
     strcat(rpath, decoded);
-    //replace all %20 with spavces here 
+    //replace all %20 with spavces here
     // strcpy(rpath, replace_str(rpath, "%20", " ");
 
     // fprintf(stderr, "%s", rpath);
@@ -491,10 +430,8 @@ void request(int sock, char *resource, char *host, int headOnly)
 void serveErr(int sock, int headOnly, int statusCode, char *statusType, char *message)
 {
     char buffer[BUFF_SIZE];
-    sprintf(buffer, "HTTP/1.1 %d %s\r\n"
-                    "Content-Type: %s\r\n\r\n",
-            statusCode, statusType, "text/html");
-    write(sock, buffer, strlen(buffer));
+    
+    writeHeader(sock,statusCode,statusType, "text/html");
     if (!headOnly)
     {
         sprintf(buffer, "<!DOCTYPE HTML>\r\n"
@@ -511,7 +448,6 @@ void serveErr(int sock, int headOnly, int statusCode, char *statusType, char *me
         write(sock, buffer, strlen(buffer));
     }
 }
- 
 
 void processFile(int sock, char *resource, char *host, int headOnly)
 {
@@ -556,9 +492,7 @@ void processFile(int sock, char *resource, char *host, int headOnly)
 
             writelog(method, host, resource, 500);
         }
-        // switch()
-        sprintf(buffer, "HTTP/1.1 200 OK\r\nContent-Type: %s\r\n\r\n", contentType);
-        write(sock, buffer, strlen(buffer));
+        writeHeader(sock,200,"OK", contentType);
 
         while ((n = read(file_fd, buffer, BUFF_SIZE)) > 0)
         {
@@ -584,6 +518,7 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
     char *method = (headOnly) ? "HEAD" : "GET";
     //get relative path of resource
     char *rpath = (char *)malloc(1 + strlen(".") + strlen(resource));
+    //decode the resource and construct a relative path
     char decoded[strlen(resource) + 1];
     decode(resource, decoded);
     strcpy(rpath, ".");
@@ -609,22 +544,22 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
         file_fd = -1;
 
         //try to open index.html -> index.htm -> default.htm else show the directory lisiting
-        char * tmp = (char *)malloc(1 + 20 + strlen(basePath));
+        char *tmp = (char *)malloc(1 + 20 + strlen(basePath));
         strcpy(tmp, ".");
         strcat(tmp, basePath);
         strcat(tmp, "index.html");
-        
+
         if ((file_fd = open(tmp, O_RDONLY)) == -1)
         {
-            memset(tmp, 0, strlen(tmp));            
+            memset(tmp, 0, strlen(tmp));
             strcpy(tmp, ".");
             strcat(tmp, basePath);
             strcat(tmp, "index.htm");
-            
+
             //Cant find index.html
             if ((file_fd = open(tmp, O_RDONLY)) == -1)
             {
-                memset(tmp, 0, strlen(tmp));       
+                memset(tmp, 0, strlen(tmp));
                 strcpy(tmp, ".");
                 strcat(tmp, basePath);
                 strcat(tmp, "default.htm");
@@ -641,9 +576,8 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
         //https://stackoverflow.com/questions/12489/how-do-you-get-a-directory-listing-in-c
         if (file_fd == -1)
         {
+            writeHeader(sock,200,"OK", "text/html");            
 
-            sprintf(buffer, "HTTP/1.1 200 OK\r\nContent-Type: %s\r\n\r\n", "text/html");
-            write(sock, buffer, strlen(buffer));
             if (!headOnly)
             {
 
@@ -684,15 +618,14 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
                 {
                     perror("Couldn't open the directory");
                 }
-                free(basePath);
             }
             writelog(method, host, resource, 200);
         }
         else
         {
             //we know the above files will be html
-            sprintf(buffer, "HTTP/1.1 200 OK\r\nContent-Type: %s\r\n\r\n", "text/html");
-            write(sock, buffer, strlen(buffer));
+            writeHeader(sock,200,"OK", "text/html");
+            
             if (!headOnly)
             {
                 while ((n = read(file_fd, buffer, BUFF_SIZE)) > 0)
@@ -701,20 +634,16 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
                 }
                 writelog(method, host, resource, 200);
             }
-            
         }
         // }
     }
-
+    free(basePath);
     free(rpath);
 }
 void trace(int sock, char *resource, char *host, char *echo)
 {
     char buffer[BUFF_SIZE];
-    sprintf(buffer, "HTTP/1.1 200 OK\r\n"
-                    "Content-Type: %s\r\n\r\n",
-            "message/http");
-    write(sock, buffer, strlen(buffer));
+    writeHeader(sock,200,"OK", "message/http");    
 
     sprintf(buffer, "%s", echo);
     write(sock, buffer, strlen(buffer));

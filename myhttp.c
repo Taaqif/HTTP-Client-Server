@@ -146,15 +146,15 @@ int main(int argc, char *argv[])
         //display message for -m HEAD
         if (strcasecmp(method, "head") == 0 && contentOnly)
         {
-            fprintf(stderr, "NOTE: Head method does not return any content. Use -a to see response\n");
+            fprintf(stderr, "NOTE: Head method does not return any content. Use -a to see response content\n");
         }
-        sprintf(buffer, "%s /%s HTTP/1.1\nHost: %s:%d\n\n", method, page, ip, port);
+        sprintf(buffer, "%s /%s HTTP/1.1\r\nHost: %s:%d\r\n\r\n", method, page, ip, port);
         if ((write(sockfd, buffer, strlen(buffer))) < 0)
         {
             perror("Error - Cannot write to socket");
             exit(1);
         }
-        fprintf(stdout, "%s", buffer);
+        // fprintf(stdout, "%s", buffer);
     }
     else
     {
@@ -169,95 +169,43 @@ int main(int argc, char *argv[])
     {
         
         bzero(buffer, BUFF_SIZE);
+        n = read(sockfd, buffer, BUFF_SIZE - 1);
+        
         //accomodate null character
-        int b;
+        char *lineToken = malloc(strlen(buffer) + 1);
+        strcpy(lineToken, buffer);
 
-        
+        while ((lineToken = strtok(lineToken, "\n")) != NULL)
+        {
+            //check if new line character from the response is found
+            if(strlen(lineToken) == 1 && !headFound)
+            {
+                headFound = 1;
+                //skip the next lines
+                strtok(NULL, "\n");
+            }
+            // printf("%d\n", strlen(lineToken));
+            //check if the user only wants the content
+            if(!contentOnly)
+            {
+                fprintf(stdout, "%s\n", lineToken);
 
-        
-        // wait for events on the sockets, 3.5 second timeout
+            }else{
+                //check if the header seperateor has been found and print
+                if(headFound)
+                {
+                    fprintf(stdout, "%s\n", lineToken);
+                }
+            }
 
-        // if (rv == -1) {
-        //     perror("poll"); // error occurred in poll()
-        // } else if (rv == 0) {
-        //     printf("Timeout occurred!  No data after 3.5 seconds.\n");
-        //     break;
-        // } else {
-        //     // check for events on s1:
-        //     if (ufds[0].revents & POLLIN) {
-        //         char *lineToken = malloc(strlen(buffer) + 1);
-        //         strcpy(lineToken, buffer);
+            //just to style the response correctly
 
-        //         while ((lineToken = strtok(lineToken, "\n")) != NULL)
-        //         {
-        //             //check if new line character from the response is found
-        //             if(strlen(lineToken) == 1 && !headFound)
-        //             {
-        //                 headFound = 1;
-        //                 //skip the next lines
-        //                 strtok(NULL, "\n");
-        //             }
-        //             // printf("%d\n", strlen(lineToken));
-        //             //check if the user only wants the content
-        //             if(!contentOnly)
-        //             {
-        //                 fprintf(stdout, "%s\n", lineToken);
+            lineToken = NULL;
 
-        //             }else{
-        //                 //check if the header seperateor has been found and print
-        //                 if(headFound)
-        //                 {
-        //                     fprintf(stdout, "%s\n", lineToken);
-        //                 }
-        //             }
+        }
 
-        //             //just to style the response correctly
-
-        //             lineToken = NULL;
-
-        //         }
-
-        //         //might be an issue when the response is exactly 512 bytes long
-        //         free(lineToken);
-
-        //         // recv(s1, buf1, sizeof buf1, 0); // receive normal data
-        //     }
-        // }
-        // fprintf(stderr, "%s", buffer);
-        // char *lineToken = malloc(strlen(buffer) + 1);
-        // strcpy(lineToken, buffer);
-
-        // while ((lineToken = strtok(lineToken, "\n")) != NULL)
-        // {
-        //     //check if new line character from the response is found
-        //     if(strlen(lineToken) == 1 && !headFound)
-        //     {
-        //         headFound = 1;
-        //         //skip the next lines
-        //         strtok(NULL, "\n");
-        //     }
-        //     // printf("%d\n", strlen(lineToken));
-        //     //check if the user only wants the content
-        //     if(!contentOnly)
-        //     {
-        //         fprintf(stdout, "%s\n", lineToken);
-
-        //     }else{
-        //         //check if the header seperateor has been found and print
-        //         if(headFound)
-        //         {
-        //             fprintf(stdout, "%s\n", lineToken);
-        //         }
-        //     }
-
-        //     //just to style the response correctly
-
-        //     lineToken = NULL;
-
-        // }
-
-        // //might be an issue when the response is exactly 512 bytes long
-        // free(lineToken);
+        //might be an issue when the response is exactly 512 bytes long
+        free(lineToken);
         // if(n + 1 != BUFF_SIZE && buffer[n] == '\0')
         // {
         //     break;
