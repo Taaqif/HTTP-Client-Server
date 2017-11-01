@@ -571,6 +571,9 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
     long n;
     char buffer[BUFF_SIZE];
     int file_fd;
+    struct stat statbuf;
+    char m_time[32], size[16];
+    
     //check for directory requests
     char *method = (headOnly) ? "HEAD" : "GET";
     //get relative path of resource
@@ -583,7 +586,7 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
     //calculate the base path 
     char *basePath = (char *)malloc(1 + strlen("//") + strlen(resource));
     strcpy(basePath, resource);
-
+    char *tmp = (char *)malloc(1 + BUFF_SIZE + strlen(basePath));
     //if there is no trailing slash, add one to the base path
     if (resource[strlen(resource) - 1] != '/')
     {
@@ -602,7 +605,7 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
         file_fd = -1;
 
         //try to open index.html -> index.htm -> default.htm else show the directory lisiting
-        char *tmp = (char *)malloc(1 + 20 + strlen(basePath));
+        
         //create path for index.html
         strcpy(tmp, ".");
         strcat(tmp, basePath);
@@ -632,7 +635,7 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
                 }
             }
         }
-        free(tmp);
+        
 
         //could not open any of the files above. Serve the dir listing
         //does not differenciate between directory and files
@@ -666,8 +669,44 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
                 {
                     while (dirListing = readdir(dir))
                     {
-                        sprintf(buffer, "   <li><a href=\"%s\">%s</a></li>\r\n", dirListing->d_name, dirListing->d_name);
-                        write(sock, buffer, strlen(buffer));
+                        char *d = S_ISDIR(statbuf.st_mode) ? "/" : "";
+                        // if(!strcmp(dirListing->d_name, ".") || !strcmp(dirListing->d_name, "..")){
+                        //     continue;
+                        // }
+                        // //rest the tmp string
+                        // //create a string containing the relative path for each directory file
+                        // memset(tmp, 0, strlen(tmp));
+                        // strcpy(tmp, ".");
+                        // strcat(tmp, basePath);
+                        // strcat(tmp, dirListing->d_name);
+
+                        // if ((file_fd = open(tmp, O_RDONLY)) == -1){
+                        //     perror(dirListing->d_name);
+                        //     continue;
+                        // }
+                        // fstat(file_fd, &statbuf);
+                        
+                        // strftime(m_time, sizeof(m_time),
+                        //          "%Y-%m-%d %H:%M", localtime(&statbuf.st_mtime));
+                        // // format_size(size, &statbuf);
+                        // if(S_ISREG(statbuf.st_mode) || S_ISDIR(statbuf.st_mode)){
+                        //     char *d = S_ISDIR(statbuf.st_mode) ? "/" : "";
+                        //     char size[15];
+                        //     sprintf(size, "%li", statbuf.st_size);
+                        //     if(S_ISDIR(statbuf.st_mode))
+                        //     {
+                        //         sprintf(size,"[DIR]");
+                        //     } 
+                            
+                            
+                            // sprintf(buffer, "<tr><td><a href=\"%s\">%s%s</a></td><td>%s</td><td>%s</td></tr>\n",
+                            // dirListing->d_name, dirListing->d_name, d, m_time, size);
+                                    sprintf(buffer, "   <li><a href=\"%s\">%s%s</a></li>\r\n", dirListing->d_name, dirListing->d_name, d);
+                                    write(sock, buffer, strlen(buffer));
+                            // writen(out_fd, buf, strlen(buf));
+                        // }
+                        // sprintf(buffer, "   <li><a href=\"%s\">%s</a></li>\r\n", dirListing->d_name, dirListing->d_name, d);
+                        // write(sock, buffer, strlen(buffer));
                     }
 
                     sprintf(buffer, "  </ul>\r\n"
@@ -700,6 +739,7 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
         }
         // }
     }
+    free(tmp);
     free(basePath);
     free(rpath);
 }

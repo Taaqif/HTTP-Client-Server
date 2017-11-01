@@ -1,36 +1,10 @@
-[ Wed, 01 Nov 2017 08:02:29 STD ] [ INFO ] Server pid = 224 
-[ Wed, 01 Nov 2017 08:02:29 STD ] [ INFO ] Server is listening on port: 8000 
-[ Wed, 01 Nov 2017 08:02:29 STD ] [ INFO ] Forked child pid is 225 
-[ Wed, 01 Nov 2017 08:02:31 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 224 
-[ Wed, 01 Nov 2017 08:02:31 STD ] GET localhost:8000 /directory 200
-[ Wed, 01 Nov 2017 08:02:31 STD ] GET localhost:8000 /directory 200
-[ Wed, 01 Nov 2017 08:02:31 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 224 
-[ Wed, 01 Nov 2017 08:02:31 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 224 
-[ Wed, 01 Nov 2017 08:05:05 STD ] 127.0.0.1 NULL  400
-[ Wed, 01 Nov 2017 08:05:05 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 224 
-[ Wed, 01 Nov 2017 08:06:34 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 224 
-[ Wed, 01 Nov 2017 08:06:34 STD ] GET a98e6d1a.ngrok.io / 200
-[ Wed, 01 Nov 2017 08:06:34 STD ] GET a98e6d1a.ngrok.io / 200
-[ Wed, 01 Nov 2017 08:06:34 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 224 
-[ Wed, 01 Nov 2017 08:06:36 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 224 
-[ Wed, 01 Nov 2017 08:06:36 STD ] GET a98e6d1a.ngrok.io /favicon.ico 404
-[ Wed, 01 Nov 2017 08:06:36 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 224 
-[ Wed, 01 Nov 2017 08:08:19 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 224 
-[ Wed, 01 Nov 2017 08:08:19 STD ] GET a98e6d1a.ngrok.io / 200
-[ Wed, 01 Nov 2017 08:08:19 STD ] GET a98e6d1a.ngrok.io / 200
-[ Wed, 01 Nov 2017 08:08:19 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 224 
-[ Wed, 01 Nov 2017 08:10:26 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 224 
-[ Wed, 01 Nov 2017 08:10:26 STD ] GET a98e6d1a.ngrok.io / 200
-[ Wed, 01 Nov 2017 08:10:26 STD ] GET a98e6d1a.ngrok.io / 200
-[ Wed, 01 Nov 2017 08:10:26 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 224 
-[ Wed, 01 Nov 2017 08:11:28 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 224 
-[ Wed, 01 Nov 2017 08:11:28 STD ] GET a98e6d1a.ngrok.io /directory 200
-[ Wed, 01 Nov 2017 08:11:28 STD ] GET a98e6d1a.ngrok.io /directory 200
-[ Wed, 01 Nov 2017 08:11:28 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 224 
-[ Wed, 01 Nov 2017 08:11:31 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 224 
-[ Wed, 01 Nov 2017 08:11:31 STD ] GET a98e6d1a.ngrok.io /directory/without%20index 200
-[ Wed, 01 Nov 2017 08:11:31 STD ] GET a98e6d1a.ngrok.io /directory/without%20index 200
-[ Wed, 01 Nov 2017 08:11:31 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 224 
-[ Wed, 01 Nov 2017 08:11:37 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 224 
-[ Wed, 01 Nov 2017 08:11:37 STD ] GET a98e6d1a.ngrok.io /directory/without%20inldex 404
-[ Wed, 01 Nov 2017 08:11:37 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 224 
+[ Wed, 01 Nov 2017 09:06:37 STD ] [ INFO ] Server pid = 365 
+[ Wed, 01 Nov 2017 09:06:37 STD ] [ INFO ] Server is listening on port: 8000 
+[ Wed, 01 Nov 2017 09:06:39 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 365 
+[ Wed, 01 Nov 2017 09:06:39 STD ] GET localhost:8000 /directory/without%20index 200
+[ Wed, 01 Nov 2017 09:06:39 STD ] GET localhost:8000 /directory/without%20index 200
+[ Wed, 01 Nov 2017 09:06:39 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 365 
+[ Wed, 01 Nov 2017 09:06:39 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 365 
+[ Wed, 01 Nov 2017 09:06:44 STD ] GET localhost:8000 /directory/ 200
+[ Wed, 01 Nov 2017 09:06:44 STD ] GET localhost:8000 /directory/ 200
+[ Wed, 01 Nov 2017 09:06:44 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 365 
