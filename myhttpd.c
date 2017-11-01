@@ -681,36 +681,43 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
                     int hasFiles = 0;
                     while (dirListing = readdir(dir))
                     {
-                        
+                        //skip the . and .. listings
                         if(!strcmp(dirListing->d_name, ".") || !strcmp(dirListing->d_name, "..")){
                             continue;
                         }
-                        //rest the tmp string
+                        //reset the tmp string
                         //create a string containing the relative path for each directory file
                         memset(tmp, 0, strlen(tmp));
                         strcpy(tmp, ".");
                         strcat(tmp, basePath);
                         strcat(tmp, dirListing->d_name);
-
+                        
+                        //open the file and stat it to get details 
                         if ((file_fd = open(tmp, O_RDONLY)) == -1){
                             perror(dirListing->d_name);
                             continue;
                         }
                         fstat(file_fd, &statbuf);
                         
+                        //display the time                        
                         strftime(m_time, sizeof(m_time),
                                  "%Y-%m-%d %H:%M", localtime(&statbuf.st_mtime));
-                        // format_size(size, &statbuf);
+
+                        //if the file is a file or a directory
                         if(S_ISREG(statbuf.st_mode) || S_ISDIR(statbuf.st_mode)){
+                            //append a / if its a directory
                             char *d = S_ISDIR(statbuf.st_mode) ? "/" : "";
+                            //get the size of the file uisng the mentioned readable_fs function 
                             char size[15];
                             sprintf(size, "%s", readable_fs(statbuf.st_size, buffer));
+                            //no need to get the size if its a directory
                             if(S_ISDIR(statbuf.st_mode))
                             {
                                 sprintf(size,"[DIR]");
                             } 
-                            
+                            //has files to check if there are no files
                             hasFiles++;
+                            //serve it as a table
                             sprintf(buffer, "   <tr><td><a href=\"%s\">%s%s</a></td><td>%s</td><td>%s</td></tr>\r\n",
                             dirListing->d_name, dirListing->d_name, d, m_time, size);
                             write(sock, buffer, strlen(buffer));
@@ -720,6 +727,7 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
                         // sprintf(buffer, "   <li><a href=\"%s\">%s%s</a></li>\r\n", dirListing->d_name, dirListing->d_name, d);
                         // write(sock, buffer, strlen(buffer));
                     }
+                    //no files, just serve a blank table
                     if(!hasFiles)
                     {
                         sprintf(buffer, "   <tr><td>No files found</td></tr>\r\n");
