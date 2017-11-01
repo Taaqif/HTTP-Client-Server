@@ -15,7 +15,6 @@
 #include <dirent.h>
 #include <stdarg.h>
 
-
 #define BUFF_SIZE 512
 #define MAX_CLIENTS 10
 #define MAX_FILETYPES 100
@@ -109,12 +108,11 @@ int main(int argc, char *argv[])
         }
     }
     //Open logfile file for writing overwriting the exsiting file
-    
+
     if ((logfile = fopen(logfilename, "w+")) == NULL)
     {
         fprintf(stderr, "Error trying to open log file.");
         exit(1);
-        
     }
 
     setMimeTypes(mimtypeFilePath);
@@ -173,9 +171,8 @@ int main(int argc, char *argv[])
     if (getsockname(sockfd, (struct sockaddr *)&serv_addr, &len) == -1)
     {
         perror("ERROR on getsockname");
-        
     }
-    else 
+    else
     {
         // Print to log file that server is now listening
         fprintf(stdout, "Server is listening on port: %d\r\n", ntohs(serv_addr.sin_port));
@@ -218,11 +215,10 @@ int main(int argc, char *argv[])
     {
         //accepts the connection of the next available client based on the client address
         newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, &len);
-        writelogMessage("Client IP: %s connected using main server PID: %d", inet_ntoa(cli_addr.sin_addr), getpid());        
+        writelogMessage("Client IP: %s connected using main server PID: %d", inet_ntoa(cli_addr.sin_addr), getpid());
         processrequest(newsockfd);
         close(newsockfd);
         writelogMessage("Disconnected client IP: %s connection from main server PID: %d", inet_ntoa(cli_addr.sin_addr), getpid());
-        
     }
 }
 //sets the supported mime types from a specified mime type file
@@ -277,7 +273,7 @@ void writelogMessage(char *message, ...)
     va_end(arg);
 
     fprintf(logfile, "[ %s ] [ INFO ] %s \r\n", s, buffer);
-    
+
     fflush(logfile);
 }
 //writes the status to the log file. contains the method, host, resource, status
@@ -496,7 +492,7 @@ void serveErr(int sock, int headOnly, int statusCode, char *statusType, char *me
         write(sock, buffer, strlen(buffer));
     }
 }
-//does the file processing 
+//does the file processing
 void processFile(int sock, char *resource, char *host, int headOnly)
 {
     long n;
@@ -517,7 +513,7 @@ void processFile(int sock, char *resource, char *host, int headOnly)
     char *contentType = NULL;
     if (!ext)
     {
-        //no extension 
+        //no extension
         serveErr(sock, headOnly, 400, "Bad Request", "The server could not process the request");
         writelogStatus(method, host, resource, 400);
         return;
@@ -526,7 +522,7 @@ void processFile(int sock, char *resource, char *host, int headOnly)
     {
         for (int i = 0; i < numMimes; i++)
         {
-            //check if the extension exsits in the supported mime type 
+            //check if the extension exsits in the supported mime type
             if (strcasecmp(ext + 1, mimes[i].extension) == 0)
             {
                 contentType = mimes[i].contentType;
@@ -565,6 +561,19 @@ void processFile(int sock, char *resource, char *host, int headOnly)
 
     free(rpath);
 }
+//converts a byte to a readable format. extracted from
+//http://programanddesign.com/cpp/human-readable-file-size-in-c/
+
+char* readable_fs(double size/*in bytes*/, char *buf) {
+    int i = 0;
+    const char* units[] = {"B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+    while (size > 1024) {
+        size /= 1024;
+        i++;
+    }
+    sprintf(buf, "%.*f %s", i, size, units[i]);
+    return buf;
+}
 //processes the directory request
 void processDirectory(int sock, char *resource, char *host, int headOnly)
 {
@@ -573,7 +582,7 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
     int file_fd;
     struct stat statbuf;
     char m_time[32], size[16];
-    
+
     //check for directory requests
     char *method = (headOnly) ? "HEAD" : "GET";
     //get relative path of resource
@@ -583,7 +592,7 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
     decode(resource, decoded);
     strcpy(rpath, ".");
     strcat(rpath, decoded);
-    //calculate the base path 
+    //calculate the base path
     char *basePath = (char *)malloc(1 + strlen("//") + strlen(resource));
     strcpy(basePath, resource);
     char *tmp = (char *)malloc(1 + BUFF_SIZE + strlen(basePath));
@@ -595,7 +604,7 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
     //check for parent directory requests.
     if (strstr(rpath, "..") != NULL)
     {
-        //cannot process parent directory from root requets 
+        //cannot process parent directory from root requets
         serveErr(sock, headOnly, 400, "Bad Request", "The server could not process the request");
 
         writelogStatus(method, host, resource, 400);
@@ -605,16 +614,16 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
         file_fd = -1;
 
         //try to open index.html -> index.htm -> default.htm else show the directory lisiting
-        
+
         //create path for index.html
         strcpy(tmp, ".");
         strcat(tmp, basePath);
         strcat(tmp, "index.html");
-        
+
         if ((file_fd = open(tmp, O_RDONLY)) == -1)
         {
             //couldnt find index.html
-           //create path for index.htm
+            //create path for index.htm
             memset(tmp, 0, strlen(tmp));
             strcpy(tmp, ".");
             strcat(tmp, basePath);
@@ -635,7 +644,6 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
                 }
             }
         }
-        
 
         //could not open any of the files above. Serve the dir listing
         //does not differenciate between directory and files
@@ -656,7 +664,7 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
                                 " </head>\r\n"
                                 " <body>\r\n"
                                 "  <h1>Directory listing for %s</h1>\r\n"
-                                "  <ul>\r\n",
+                                "  <table>\r\n",
                         basePath, rpath);
 
                 write(sock, buffer, strlen(buffer));
@@ -667,49 +675,54 @@ void processDirectory(int sock, char *resource, char *host, int headOnly)
 
                 if (dir != NULL)
                 {
+                    int hasFiles = 0;
                     while (dirListing = readdir(dir))
                     {
-                        char *d = S_ISDIR(statbuf.st_mode) ? "/" : "";
-                        // if(!strcmp(dirListing->d_name, ".") || !strcmp(dirListing->d_name, "..")){
-                        //     continue;
-                        // }
-                        // //rest the tmp string
-                        // //create a string containing the relative path for each directory file
-                        // memset(tmp, 0, strlen(tmp));
-                        // strcpy(tmp, ".");
-                        // strcat(tmp, basePath);
-                        // strcat(tmp, dirListing->d_name);
-
-                        // if ((file_fd = open(tmp, O_RDONLY)) == -1){
-                        //     perror(dirListing->d_name);
-                        //     continue;
-                        // }
-                        // fstat(file_fd, &statbuf);
                         
-                        // strftime(m_time, sizeof(m_time),
-                        //          "%Y-%m-%d %H:%M", localtime(&statbuf.st_mtime));
-                        // // format_size(size, &statbuf);
-                        // if(S_ISREG(statbuf.st_mode) || S_ISDIR(statbuf.st_mode)){
-                        //     char *d = S_ISDIR(statbuf.st_mode) ? "/" : "";
-                        //     char size[15];
-                        //     sprintf(size, "%li", statbuf.st_size);
-                        //     if(S_ISDIR(statbuf.st_mode))
-                        //     {
-                        //         sprintf(size,"[DIR]");
-                        //     } 
+                        if(!strcmp(dirListing->d_name, ".") || !strcmp(dirListing->d_name, "..")){
+                            continue;
+                        }
+                        //rest the tmp string
+                        //create a string containing the relative path for each directory file
+                        memset(tmp, 0, strlen(tmp));
+                        strcpy(tmp, ".");
+                        strcat(tmp, basePath);
+                        strcat(tmp, dirListing->d_name);
+
+                        if ((file_fd = open(tmp, O_RDONLY)) == -1){
+                            perror(dirListing->d_name);
+                            continue;
+                        }
+                        fstat(file_fd, &statbuf);
+                        
+                        strftime(m_time, sizeof(m_time),
+                                 "%Y-%m-%d %H:%M", localtime(&statbuf.st_mtime));
+                        // format_size(size, &statbuf);
+                        if(S_ISREG(statbuf.st_mode) || S_ISDIR(statbuf.st_mode)){
+                            char *d = S_ISDIR(statbuf.st_mode) ? "/" : "";
+                            char size[15];
+                            sprintf(size, "%s", readable_fs(statbuf.st_size, buffer));
+                            if(S_ISDIR(statbuf.st_mode))
+                            {
+                                sprintf(size,"[DIR]");
+                            } 
                             
-                            
-                            // sprintf(buffer, "<tr><td><a href=\"%s\">%s%s</a></td><td>%s</td><td>%s</td></tr>\n",
-                            // dirListing->d_name, dirListing->d_name, d, m_time, size);
-                                    sprintf(buffer, "   <li><a href=\"%s\">%s%s</a></li>\r\n", dirListing->d_name, dirListing->d_name, d);
-                                    write(sock, buffer, strlen(buffer));
-                            // writen(out_fd, buf, strlen(buf));
-                        // }
-                        // sprintf(buffer, "   <li><a href=\"%s\">%s</a></li>\r\n", dirListing->d_name, dirListing->d_name, d);
+                            hasFiles++;
+                            sprintf(buffer, "   <tr><td><a href=\"%s\">%s%s</a></td><td>%s</td><td>%s</td></tr>\r\n",
+                            dirListing->d_name, dirListing->d_name, d, m_time, size);
+                            write(sock, buffer, strlen(buffer));
+                        }
+                        // char *d = S_ISDIR(statbuf.st_mode) ? "/" : "";
+
+                        // sprintf(buffer, "   <li><a href=\"%s\">%s%s</a></li>\r\n", dirListing->d_name, dirListing->d_name, d);
                         // write(sock, buffer, strlen(buffer));
                     }
-
-                    sprintf(buffer, "  </ul>\r\n"
+                    if(!hasFiles)
+                    {
+                        sprintf(buffer, "   <tr><td>No files found</td></tr>\r\n");
+                        write(sock, buffer, strlen(buffer));
+                    }
+                    sprintf(buffer, "  </table>\r\n"
                                     " </body>\r\n"
                                     "</html>\r\n");
                     write(sock, buffer, strlen(buffer));
@@ -749,13 +762,11 @@ void trace(int sock, char *resource, char *host, char *echo)
     char buffer[BUFF_SIZE];
     writeHeader(sock, 200, "OK", "message/http");
 
-
     //send the request back in the response
     sprintf(buffer, "%s", echo);
     write(sock, buffer, strlen(buffer));
     writelogStatus("TRACE", host, resource, 200);
 }
-
 
 //Catches and handles pid that may become zombies
 
@@ -771,7 +782,7 @@ void claim_zombie()
     }
 }
 
-//Turn server code into a daemon 
+//Turn server code into a daemon
 
 int daemon_init(void)
 {

@@ -1,7 +1,19 @@
-[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Server pid = 413 
-[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Server is listening on port: 8000 
-[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Forked child pid is 414 
-[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Forked child pid is 415 
-[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Forked child pid is 416 
-[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Forked child pid is 417 
-[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Forked child pid is 418 
+[ Wed, 01 Nov 2017 09:52:57 STD ] [ INFO ] Server pid = 534 
+[ Wed, 01 Nov 2017 09:52:57 STD ] [ INFO ] Server is listening on port: 8000 
+[ Wed, 01 Nov 2017 09:52:57 STD ] [ INFO ] Forked child pid is 535 
+[ Wed, 01 Nov 2017 09:52:57 STD ] [ INFO ] Forked child pid is 536 
+[ Wed, 01 Nov 2017 09:52:57 STD ] [ INFO ] Forked child pid is 537 
+[ Wed, 01 Nov 2017 09:52:57 STD ] [ INFO ] Forked child pid is 538 
+[ Wed, 01 Nov 2017 09:52:57 STD ] [ INFO ] Forked child pid is 539 
+[ Wed, 01 Nov 2017 09:52:57 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 534 
+[ Wed, 01 Nov 2017 09:52:57 STD ] GET localhost:8000 /test/directory 200
+[ Wed, 01 Nov 2017 09:52:57 STD ] GET localhost:8000 /test/directory 200
+[ Wed, 01 Nov 2017 09:52:57 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 534 
+[ Wed, 01 Nov 2017 09:52:57 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 534 
+[ Wed, 01 Nov 2017 09:53:01 STD ] GET localhost:8000 /test/directory/with%20default%20htm 200
+[ Wed, 01 Nov 2017 09:53:01 STD ] GET localhost:8000 /test/directory/with%20default%20htm 200
+[ Wed, 01 Nov 2017 09:53:01 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 534 
+[ Wed, 01 Nov 2017 09:53:07 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 534 
+[ Wed, 01 Nov 2017 09:53:14 STD ] GET localhost:8000 /test 200
+[ Wed, 01 Nov 2017 09:53:14 STD ] GET localhost:8000 /test 200
+[ Wed, 01 Nov 2017 09:53:14 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 534 
