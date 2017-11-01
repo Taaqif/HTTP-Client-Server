@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
     //    fprintf(stdout, "Get request%s", method);
-    //    // check if GET method is called based on string compare
+       // check method type by comparing
 
     if (strcasecmp(method, "get") == 0 | strcasecmp(method, "head") == 0 | strcasecmp(method, "trace") == 0)
     {

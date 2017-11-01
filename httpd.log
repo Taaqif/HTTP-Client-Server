@@ -1,10 +1,7 @@
-[ Wed, 01 Nov 2017 09:06:37 STD ] [ INFO ] Server pid = 365 
-[ Wed, 01 Nov 2017 09:06:37 STD ] [ INFO ] Server is listening on port: 8000 
-[ Wed, 01 Nov 2017 09:06:39 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 365 
-[ Wed, 01 Nov 2017 09:06:39 STD ] GET localhost:8000 /directory/without%20index 200
-[ Wed, 01 Nov 2017 09:06:39 STD ] GET localhost:8000 /directory/without%20index 200
-[ Wed, 01 Nov 2017 09:06:39 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 365 
-[ Wed, 01 Nov 2017 09:06:39 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 365 
-[ Wed, 01 Nov 2017 09:06:44 STD ] GET localhost:8000 /directory/ 200
-[ Wed, 01 Nov 2017 09:06:44 STD ] GET localhost:8000 /directory/ 200
-[ Wed, 01 Nov 2017 09:06:44 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 365 
+[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Server pid = 413 
+[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Server is listening on port: 8000 
+[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Forked child pid is 414 
+[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Forked child pid is 415 
+[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Forked child pid is 416 
+[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Forked child pid is 417 
+[ Wed, 01 Nov 2017 09:21:33 STD ] [ INFO ] Forked child pid is 418 
