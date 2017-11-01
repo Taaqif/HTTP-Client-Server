@@ -15,12 +15,8 @@ int trace(int sockfd, char *resource);
 int head(int sockfd, char *resource);
 
 int contentOnly = 1;
-/**
- * @brief      Set up socket for client  based on the Address family INET
- *
- * @param[in]  argc - The counter in which the arguments from command line are stories in
- *             argv - The arguments that are written into command line
- */
+//Set up socket for client  based on the Address family INET
+
 int main(int argc, char *argv[])
 {
     int sockfd, n;
@@ -55,6 +51,7 @@ int main(int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
     }
+    //make sure only one url provided 
     for (index = optind; index < argc; index++)
     {
         if (numArgs > 0)
@@ -139,6 +136,7 @@ int main(int argc, char *argv[])
     //    fprintf(stdout, "Get request%s", method);
        // check method type by comparing
 
+       //compare the requested method. Only support these three at the moemtn
     if (strcasecmp(method, "get") == 0 | strcasecmp(method, "head") == 0 | strcasecmp(method, "trace") == 0)
     {
         bzero(buffer, BUFF_SIZE);
@@ -154,7 +152,6 @@ int main(int argc, char *argv[])
             perror("Error - Cannot write to socket");
             exit(1);
         }
-        // fprintf(stdout, "%s", buffer);
     }
     else
     {
@@ -170,8 +167,7 @@ int main(int argc, char *argv[])
         
         bzero(buffer, BUFF_SIZE);
         n = read(sockfd, buffer, BUFF_SIZE - 1);
-        
-        //accomodate null character
+        //read each line individually to check when the response  is seperated by the blank line
         char *lineToken = malloc(strlen(buffer) + 1);
         strcpy(lineToken, buffer);
 
@@ -184,7 +180,6 @@ int main(int argc, char *argv[])
                 //skip the next lines
                 strtok(NULL, "\n");
             }
-            // printf("%d\n", strlen(lineToken));
             //check if the user only wants the content
             if(!contentOnly)
             {
@@ -198,7 +193,6 @@ int main(int argc, char *argv[])
                 }
             }
 
-            //just to style the response correctly
 
             lineToken = NULL;
 

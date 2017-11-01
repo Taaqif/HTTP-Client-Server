@@ -186,6 +186,8 @@ int main(int argc, char *argv[])
     // Ignore SIGPIPE signal, interupted requests wont fail
     signal(SIGPIPE, SIG_IGN);
     //preforks
+    //https://github.com/shenfeng/tiny-web-server
+    writelogMessage("Using %d spare servers", preforks);
     for (int i = 0; i < preforks; i++)
     {
         int pid = fork();
