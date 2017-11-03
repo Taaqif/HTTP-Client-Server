@@ -30,3 +30,47 @@
 [ Fri, 03 Nov 2017 09:49:02 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
 [ Fri, 03 Nov 2017 09:49:02 STD ] 127.0.0.1 NO HOST PROVIDED  400
 [ Fri, 03 Nov 2017 09:49:02 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:52:26 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:52:26 STD ] GET localhost:8000 /test/directory 200
+[ Fri, 03 Nov 2017 09:52:26 STD ] GET localhost:8000 /test/directory 200
+[ Fri, 03 Nov 2017 09:52:26 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:52:26 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:52:27 STD ] GET localhost:8000 /test/directory/with%20default%20htm 200
+[ Fri, 03 Nov 2017 09:52:27 STD ] GET localhost:8000 /test/directory/with%20default%20htm 200
+[ Fri, 03 Nov 2017 09:52:27 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:52:29 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:52:29 STD ] GET localhost:8000 /test/directory/with%20index%20htm 200
+[ Fri, 03 Nov 2017 09:52:29 STD ] GET localhost:8000 /test/directory/with%20index%20htm 200
+[ Fri, 03 Nov 2017 09:52:29 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:52:29 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:52:31 STD ] GET localhost:8000 /test/directory/with%20index%20html 200
+[ Fri, 03 Nov 2017 09:52:31 STD ] GET localhost:8000 /test/directory/with%20index%20html 200
+[ Fri, 03 Nov 2017 09:52:31 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:52:51 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:52:51 STD ] GET localhost:8000 /testIndex 200
+[ Fri, 03 Nov 2017 09:52:51 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:52:52 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:52:52 STD ] 127.0.0.1 NO HOST PROVIDED  400
+[ Fri, 03 Nov 2017 09:52:52 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:53:01 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:53:01 STD ] GET localhost:8000 /test/ 200
+[ Fri, 03 Nov 2017 09:53:01 STD ] GET localhost:8000 /test/ 200
+[ Fri, 03 Nov 2017 09:53:01 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:53:01 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:53:02 STD ] 127.0.0.1 NO HOST PROVIDED  400
+[ Fri, 03 Nov 2017 09:53:02 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:53:03 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:53:03 STD ] GET localhost:8000 /test/directory 200
+[ Fri, 03 Nov 2017 09:53:03 STD ] GET localhost:8000 /test/directory 200
+[ Fri, 03 Nov 2017 09:53:03 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:53:03 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:53:05 STD ] GET localhost:8000 /test/directory/with%20default%20htm 200
+[ Fri, 03 Nov 2017 09:53:05 STD ] GET localhost:8000 /test/directory/with%20default%20htm 200
+[ Fri, 03 Nov 2017 09:53:05 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:53:19 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:53:19 STD ] GET localhost:8000 /test/directory/with%20default%20htm/ 200
+[ Fri, 03 Nov 2017 09:53:19 STD ] GET localhost:8000 /test/directory/with%20default%20htm/ 200
+[ Fri, 03 Nov 2017 09:53:19 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:53:19 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:53:22 STD ] 127.0.0.1 NO HOST PROVIDED  400
+[ Fri, 03 Nov 2017 09:53:22 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
