@@ -1,103 +1,32 @@
-[ Wed, 01 Nov 2017 23:06:51 STD ] [ INFO ] Server pid = 650 
-[ Wed, 01 Nov 2017 23:06:51 STD ] [ INFO ] Server is listening on port: 8000 
-[ Wed, 01 Nov 2017 23:06:51 STD ] [ INFO ] Using 0 spare servers 
-[ Wed, 01 Nov 2017 23:06:54 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:06:54 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:06:54 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:06:54 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:06:56 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:06:56 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:06:56 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:06:56 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:06:57 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:06:57 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:06:57 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:06:57 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:06:58 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:06:58 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:06:58 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:06:58 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:07:02 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:07:02 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:07:02 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:07:02 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:07:03 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:07:03 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:07:03 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:07:03 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:24 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:24 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:24 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:24 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:24 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:24 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:24 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:24 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:24 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:24 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:24 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:24 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:24 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:24 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:24 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:24 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:24 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:24 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:24 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:24 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:24 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:24 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:24 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:24 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:25 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:25 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:25 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:25 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:25 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:25 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:25 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:25 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:25 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:25 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:25 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:25 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:25 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:28:25 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:25 STD ] GET localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:28:25 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:06 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:06 STD ] HEAD localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:29:06 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:06 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:06 STD ] HEAD localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:29:06 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:06 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:06 STD ] HEAD localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:29:06 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:06 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:06 STD ] HEAD localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:29:06 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:06 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:06 STD ] HEAD localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:29:06 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:07 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:07 STD ] HEAD localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:29:07 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:07 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:07 STD ] HEAD localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:29:07 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:07 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:07 STD ] HEAD localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:29:07 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:07 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:07 STD ] HEAD localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:29:07 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:07 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:07 STD ] HEAD localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:29:07 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:13 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:13 STD ] HEAD localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:29:13 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:13 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 650 
-[ Wed, 01 Nov 2017 23:29:13 STD ] HEAD localhost:8000 / 200
-[ Wed, 01 Nov 2017 23:29:13 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 650 
+[ Fri, 03 Nov 2017 09:48:37 STD ] [ INFO ] Server is listening on port: 8000 
+[ Fri, 03 Nov 2017 09:48:37 STD ] [ INFO ] Using 0 spare servers 
+[ Fri, 03 Nov 2017 09:48:37 STD ] [ INFO ] Server pid = 16 
+[ Fri, 03 Nov 2017 09:48:46 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:48:46 STD ] GET localhost:8000 / 200
+[ Fri, 03 Nov 2017 09:48:46 STD ] GET localhost:8000 / 200
+[ Fri, 03 Nov 2017 09:48:46 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:48:46 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:48:52 STD ] 127.0.0.1 NO HOST PROVIDED  400
+[ Fri, 03 Nov 2017 09:48:52 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:48:53 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:48:53 STD ] GET localhost:8000 /Hello.html 200
+[ Fri, 03 Nov 2017 09:48:53 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:48:53 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:48:55 STD ] GET localhost:8000 /test/ 200
+[ Fri, 03 Nov 2017 09:48:55 STD ] GET localhost:8000 /test/ 200
+[ Fri, 03 Nov 2017 09:48:55 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:48:57 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:48:57 STD ] GET localhost:8000 /test/SampleVideo_1280x720_2mb.mp4 200
+[ Fri, 03 Nov 2017 09:48:57 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:48:57 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:49:00 STD ] GET localhost:8000 /test/SampleVideo_1280x720_2mb.mp4 200
+[ Fri, 03 Nov 2017 09:49:00 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:49:00 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:49:01 STD ] GET localhost:8000 /test/SampleVideo_1280x720_2mb.mp4 200
+[ Fri, 03 Nov 2017 09:49:01 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:49:01 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:49:02 STD ] GET localhost:8000 /test/SampleVideo_1280x720_2mb.mp4 200
+[ Fri, 03 Nov 2017 09:49:02 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
+[ Fri, 03 Nov 2017 09:49:02 STD ] [ INFO ] Client IP: 127.0.0.1 connected using main server PID: 16 
+[ Fri, 03 Nov 2017 09:49:02 STD ] 127.0.0.1 NO HOST PROVIDED  400
+[ Fri, 03 Nov 2017 09:49:02 STD ] [ INFO ] Disconnected client IP: 127.0.0.1 connection from main server PID: 16 
